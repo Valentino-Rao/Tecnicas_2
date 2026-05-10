@@ -1,4 +1,4 @@
-SRC_DIR = ./src
+SRC_DIR = ./
 BUILD_DIR = build
 CC = arm-none-eabi-gcc
 AS = arm-none-eabi-as

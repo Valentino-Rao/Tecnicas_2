@@ -1,49 +1,84 @@
 #include <stdint.h>
 
-// Definiciones de registros (STM32F103)
-#define RCC_APB2ENR  (*(volatile uint32_t *)0x40021018)
-#define GPIOC_CRH    (*(volatile uint32_t *)0x40011004)
-#define GPIOA_CRL    (*(volatile uint32_t *)0x40010800)
-#define GPIOC_ODR    (*(volatile uint32_t *)0x4001100C)
-#define GPIOA_ODR    (*(volatile uint32_t *)0x4001080C)
+// register address
+#define RCC_BASE 0x40021000
+#define GPIOC_BASE 0x40011000
+#define GPIOA_BASE 0x40010800
 
-// Registros de SysTick
-#define STK_CTRL     (*(volatile uint32_t *)0xE000E010)
-#define STK_LOAD     (*(volatile uint32_t *)0xE000E014)
-#define STK_VAL      (*(volatile uint32_t *)0xE000E018)
+#define RCC_APB2ENR *(volatile uint32_t *)(RCC_BASE + 0x18)
 
-void SysTick_Handler(void) {
-    // Alternamos PC13 (Led placa) y PA0 (Led externo
-    // El operador ^= (XOR) cambia el estado del bit
-    GPIOC_ODR ^= (1 << 13);
-    GPIOA_ODR ^= (1 << 0);
+#define GPIOA_CRL *(volatile uint32_t *)(GPIOA_BASE + 0x00)
+#define GPIOA_ODR *(volatile uint32_t *)(GPIOA_BASE + 0x0C)
+
+#define GPIOC_CRH *(volatile uint32_t *)(GPIOC_BASE + 0x04)
+#define GPIOC_ODR *(volatile uint32_t *)(GPIOC_BASE + 0x0C)
+
+// bit fields
+#define RCC_IOPCEN (1 << 4)
+#define RCC_IOPAEN (1 << 2)
+#define GPIOC13 (1UL << 13)
+#define GPIOA0 (1UL << 0)
+
+// --- Registros del SysTick (Cortex-M Core) ---
+#define SysTick_BASE 0xE000E010
+#define SysTick_CTRL *(volatile uint32_t *)(SysTick_BASE + 0x00)
+#define SysTick_LOAD *(volatile uint32_t *)(SysTick_BASE + 0x04)
+#define SysTick_VAL  *(volatile uint32_t *)(SysTick_BASE + 0x08)
+
+// Bits de control de SysTick
+#define SysTick_CTRL_ENABLE    (1 << 0) // Habilita el contador
+#define SysTick_CTRL_TICKINT   (1 << 1) // Habilita la interrupción de SysTick
+#define SysTick_CTRL_CLKSOURCE (1 << 2) // Fuente de reloj
+#define SysTick_CTRL_COUNTFLAG (1 << 16) // Bandera de desborde
+					 
+volatile uint32_t tick;
+// función que atiende la interrupción
+void SysTick_Handler(void)
+{
+    tick++;
 }
 
-int main(void) {
-    // 1. Habilitar relojes para GPIOA y GPIOC
-    RCC_APB2ENR |= (1 << 2) | (1 << 4);
+// inicialización del systick
+void systick_init_ms(void)
+{
+    tick = 0;
+    SysTick_CTRL &= ~SysTick_CTRL_CLKSOURCE; // Reloj de SysTick a HCLK/8 (8MHz / 8 = 1MHz -> 1 tick = 1µs)
+    SysTick_LOAD = 999; // Poner valor de RECARGA para 1000 ticks (1ms) (1000 - 1) = 999
+    SysTick_VAL = 0; // reset del contador
+    SysTick_CTRL |= SysTick_CTRL_TICKINT | SysTick_CTRL_ENABLE; // Habilitar la interrupción de SysTick (TICKINT) Y el contador (ENABLE)
+}
 
-    // 2. Configurar PC13 como salida push-pull (General purpose output)
-    GPIOC_CRH &= ~(0xF << 20); // Limpiar bits
-    GPIOC_CRH |= (0x2 << 20);  // Output 2MHz, Push-pull
+// función delay 
+void delay_ms_bloqueante(uint32_t ms)
+{
+    uint32_t tiempo_inicio = tick + ms;
+    // Espera activa hasta que el contador global haya avanzado 'ms' milisegundos
+    while (tick != tiempo_inicio) ;
+}
 
-    // 3. Configurar PA0 como salida push-pull
-    GPIOA_CRL &= ~(0xF << 0);  // Limpiar bits
-    GPIOA_CRL |= (0x2 << 0);   // Output 2MHz, Push-pull
+void main(void)
+{
+    RCC_APB2ENR |= RCC_IOPCEN | RCC_IOPAEN;
 
-    // Inicializar estados opuestos para que alternen
-    GPIOC_ODR |= (1 << 13);    // Uno encendido
-    GPIOA_ODR &= ~(1 << 0);    // El otro apagado
+    GPIOC_CRH &= 0xFF0FFFFF;
+    GPIOC_CRH |= 0x00200000;
 
-    // 4. Configurar SysTick
-    // Si el clock es 8MHz, 8.000.000 / 2 = 4.000.000 para medio segundo
-    STK_LOAD = 4000000 - 1; 
-    STK_VAL = 0;
-    // Habilitar: Bit 0 (Enable), Bit 1 (Interrupt), Bit 2 (Processor Clock)
-    STK_CTRL = 0x07;
+    GPIOA_CRL &= 0xFFFFFFF0;
+    GPIOA_CRL |= 0x00000003;
 
-    while (1) {
-        // El procesador puede dormir o hacer otras tareas aquí
-        __asm("wfi"); 
+    systick_init_ms();
+    while (1)
+   {
+        // Encender el LED (poner PC13 en BAJO)
+        GPIOC_ODR &= ~GPIOC13;
+        delay_ms_bloqueante(500); // Espera 500 ms
+        // Apagar el LED (poner PC13 en ALTO)
+        GPIOC_ODR |= GPIOC13;
+        delay_ms_bloqueante(500); // Espera 500 ms
+                                  //
+        GPIOA_ODR |= GPIOA0;
+        delay_ms_bloqueante(500);
+        GPIOA_ODR &= ~GPIOA0;
+        delay_ms_bloqueante(500);
     }
 }
