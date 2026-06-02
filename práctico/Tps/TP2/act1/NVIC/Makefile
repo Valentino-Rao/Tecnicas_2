@@ -24,7 +24,7 @@ app.bin: app.elf
 	$(BIN) -O binary $(BUILD_DIR)/app.elf $(BUILD_DIR)/app.bin
 
 clean:
-	rm-rf $(BUILD_DIR)
+	rm -rf $(BUILD_DIR)
 
 openocd-flash: app.bin
 
