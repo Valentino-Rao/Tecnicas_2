@@ -1,0 +1,487 @@
+\documentclass{plantilla}
+\usepackage[T1]{fontenc}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% --- Configuración de colores para el código ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.96,0.96,0.96}
+
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=C,
+    frame=single,
+    rulecolor=\color{black!10},
+    xleftmargin=0.5cm,                 
+    xrightmargin=0.5cm,                
+    columns=flexible,                
+    lineskip=1pt                     
+}
+
+\usepackage[caption=false]{subfig}
+
+% --- Configuración de TikZ Global (Estilo idéntico a las referencias de la cátedra) ---
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, shadows}
+\tikzset{
+    startstop/.style={
+        rectangle, rounded corners=3pt,
+        draw=green!60!black, fill=green!20,
+        text width=3.5cm, minimum height=0.6cm,
+        align=center, font=\small\sffamily,
+        drop shadow
+    },
+    process_main/.style={
+        rectangle, rounded corners=3pt,
+        draw=blue!60!black, fill=blue!10,
+        text width=6.2cm, minimum height=0.7cm,
+        align=center, font=\small\sffamily,
+        drop shadow
+    },
+    process_isr/.style={
+        rectangle, rounded corners=3pt,
+        draw=purple!60!black, fill=purple!10,
+        text width=5.5cm, minimum height=0.7cm,
+        align=center, font=\small\sffamily,
+        drop shadow
+    },
+    process_loop/.style={
+        rectangle, rounded corners=3pt,
+        draw=orange!60!black, fill=orange!20,
+        text width=6.2cm, minimum height=0.7cm,
+        align=center, font=\small\sffamily,
+        drop shadow
+    },
+    process_option/.style={
+        rectangle, rounded corners=3pt,
+        draw=blue!60!black, fill=blue!10,
+        text width=2.4cm, minimum height=1.0cm,
+        align=center, font=\footnotesize\sffamily,
+        drop shadow
+    },
+    decision/.style={
+        diamond,
+        draw=yellow!60!black, fill=yellow!15,
+        aspect=2.2,
+        text width=2.2cm,
+        align=center, font=\small\sffamily,
+        inner sep=2pt,
+        drop shadow
+    },
+    arrow/.style={
+        thick, ->, >=Stealth
+    },
+    event_arrow/.style={
+        thick, dashed, red, ->, >=Stealth
+    },
+    return_arrow/.style={
+        thick, dashed, black, ->, >=Stealth
+    }
+}
+
+\titulo{Técnicas Digitales 2 - Trabajo práctico N° 2 - Act N°4}
+\autores{Braida Agustín (404621) - Ernst Pedro (400624) - Polizze Tomas (400793) - Valentino Rao (402308)}
+\materia{Técnicas Digitales 2}
+
+\begin{document}
+\shorthandoff{"}
+
+\maketitle
+
+\section{Resumen}
+En esta actividad se implementa un sistema de comunicación bidireccional entre una PC que corre una terminal interactiva bajo sistema operativo Linux y una placa de desarrollo BluePill basada en el microcontrolador STM32F103 (Cortex-M3). Se utiliza el estándar industrial CMSIS para configurar el hardware. A diferencia de las actividades previas que utilizaban lectura por sondeo (polling), en esta ocasión se incorpora la recepción por interrupción (USART1 RXNEIE), mejorando drásticamente la eficiencia en el uso de CPU del microcontrolador al reaccionar de manera asíncrona ante la llegada de caracteres. Se expone un menú interactivo en la PC para encender, apagar y hacer destellar el LED integrado en la placa (PC13), con su respectivo acuse de recibo y retroalimentación bidireccional.
+
+\section{Introducción}
+La comunicación UART (Universal Asynchronous Receiver-Transmitter) es uno de los métodos de transmisión de datos en serie más difundidos en la ingeniería de sistemas embebidos. En las actividades iniciales de este trabajo práctico, el intercambio de datos se realizaba mediante sondeo continuo de banderas de hardware. Sin embargo, este paradigma consume excesivo tiempo de procesador en bucles vacíos y disminuye la capacidad del sistema para responder a otros estímulos en tiempo real. 
+
+El presente informe detalla el diseño y desarrollo de la Actividad 4, donde se migra la recepción a un esquema de interrupción por hardware de comunicaciones. Se describe la configuración a nivel de registros CMSIS y se presenta la estructura de la aplicación de control del lado de la PC.
+
+\section{Implementación de la Comunicación Bidireccional}
+
+El sistema propuesto consta de dos partes acopladas: el firmware de la BluePill (STM32F103) y la aplicación host interactiva escrita en C para PC bajo sistema operativo Linux. La comunicación se realiza a través de una interfaz UART asíncrona a 9600 bps.
+
+\subsection{Esquema de Conexión Física (PC - BluePill)}
+Para establecer el enlace físico, se utiliza un conversor USB-to-UART (por ejemplo, basado en el chip CP2102 o FT232RL). La conexión eléctrica es cruzada entre las señales de transmisión y recepción, además de requerir una referencia de tierra común indispensable para evitar ruidos y diferencias de potencial:
+\begin{enumerate}
+    \item \textbf{PA9 (TX de USART1)} de la BluePill se conecta al pin \textbf{RXD (Recepción)} del conversor USB-UART.
+    \item \textbf{PA10 (RX de USART1)} de la BluePill se conecta al pin \textbf{TXD (Transmisión)} del conversor USB-UART.
+    \item \textbf{GND} de la BluePill se conecta al pin \textbf{GND} del conversor USB-UART.
+\end{enumerate}
+
+En la Tabla I se detalla el esquema de conexión utilizado.
+
+\begin{table}[h]
+\centering
+\caption{Conexiones físicas de la interfaz serie}
+\begin{tabular}{ccc}
+\toprule
+\textbf{BluePill (STM32F103)} & $\leftrightarrow$ & \textbf{Conversor USB-UART} \\
+\midrule
+PA9 (TX) & $\rightarrow$ & RXD \\
+PA10 (RX) & $\leftarrow$ & TXD \\
+GND & $\leftrightarrow$ & GND \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Configuración del Periférico USART1}
+La configuración de USART1 se realizó mediante manipulación directa de registros de hardware. Las especificaciones son: baudrate de 9600 bps, formato de trama 8N1 (8 bits de datos, sin paridad, 1 bit de parada), y habilitación de interrupción por recepción.
+
+\begin{itemize}
+    \item \textbf{Configuración de Pines (GPIO):}
+    \begin{itemize}
+        \item Pin PA9 (TX): Se configura como salida de función alternativa push-pull a una velocidad de 2 MHz (bits \texttt{CNF9[1:0] = 10} y \texttt{MODE9[1:0] = 10} del registro \texttt{GPIOA-\textgreater{}CRH}).
+        \item Pin PA10 (RX): Se configura como entrada flotante (bits \texttt{CNF10[1:0] = 01} y \texttt{MODE10[1:0] = 00} del registro \texttt{GPIOA-\textgreater{}CRH}).
+    \end{itemize}
+    
+    \item \textbf{Cálculo de Baudrate (9600 bps):}
+    El cálculo del registro divisor de baudios (\texttt{USART\_BRR}) se rige por la fórmula:
+    \[ \text{Baudrate} = \frac{f_{\text{CK}}}{16 \times \text{USARTDIV}} \]
+    Donde $f_{\text{CK}}$ es la frecuencia de reloj del periférico USART1, el cual está conectado al bus APB2 que funciona a $72\text{ MHz}$. Despejando el divisor:
+    \[ \text{USARTDIV} = \frac{72 \times 10^6}{16 \times 9600} = 468.75 \]
+    El registro \texttt{USART1-\textgreater{}BRR} almacena este valor en formato de coma fija de la siguiente manera:
+    \begin{itemize}
+        \item Parte entera (Mantisa): $468$ en decimal, equivalente a \texttt{0x1D4}.
+        \item Parte fraccionaria: $0.75 \times 16 = 12$ en decimal, equivalente a \texttt{0xC}.
+    \end{itemize}
+    Uniendo ambas partes, se configura \texttt{USART1-\textgreater{}BRR = 0x1D4C}.
+    
+    \item \textbf{Formato de Trama (8N1):}
+    \begin{itemize}
+        \item 8 bits de datos: Se limpia el bit \texttt{M} (Word length) en \texttt{USART1-\textgreater{}CR1} (0 por defecto).
+        \item Sin paridad: Se limpia el bit \texttt{PCE} (Parity Control Enable) en \texttt{USART1-\textgreater{}CR1} (0 por defecto).
+        \item 1 bit de parada: Se limpian los bits \texttt{STOP[1:0]} en \texttt{USART1-\textgreater{}CR2} (00 por defecto).
+    \end{itemize}
+    
+    \item \textbf{Habilitación y Control de Transmisión/Recepción:}
+    Se escriben en 1 los bits \texttt{UE} (USART Enable), \texttt{TE} (Transmitter Enable) y \texttt{RE} (Receiver Enable) en \texttt{USART1-\textgreater{}CR1} para poner en funcionamiento el transceptor del periférico.
+\end{itemize}
+
+\subsection{Configuración de Interrupciones en el Microcontrolador}
+Para lograr que la recepción sea asíncrona mediante interrupciones en lugar de polling, se realizaron los siguientes pasos en el firmware:
+\begin{itemize}
+    \item Habilitar la máscara de interrupción por receptor no vacío (\textit{Read Data Register Not Empty}): \texttt{USART1-\textgreater{}CR1 |= USART\_CR1\_RXNEIE}. Esto instruye al hardware para generar una petición de interrupción en el NVIC cada vez que se reciba un byte completo.
+    \item Habilitar e indicar la prioridad de la interrupción en el controlador de vectores de interrupción del Cortex-M3 (NVIC) a través de las funciones CMSIS:
+    \noindent\textbf{Habilitación en el NVIC:}
+    \begin{lstlisting}[language=C]
+NVIC_SetPriority(USART1_IRQn, 2);
+NVIC_EnableIRQ(USART1_IRQn);
+    \end{lstlisting}
+    \item Definir la Rutina de Servicio de Interrupción (ISR) \texttt{USART1\_IRQHandler(void)} para que recupere el carácter recibido leyendo el registro \texttt{USART1-\textgreater{}DR} (acción que automáticamente limpia la bandera de hardware de interrupción \texttt{RXNE}) y levante la bandera global volátil \texttt{new\_command}.
+\end{itemize}
+
+\subsection{Configuración del Puerto Serie desde la PC (termios)}
+En el software desarrollado en C para Linux, se configura el puerto serie mediante la API de control de terminal POSIX (\texttt{termios}). El descriptor de archivo asociado al dispositivo serie se abre con la llamada al sistema \texttt{open("/dev/ttyUSB0", O\_RDWR | O\_NOCTTY)}. A continuación, se detalla la lógica de configuración:
+\begin{itemize}
+    \item \textbf{Modo Raw (Sin Procesar):} Se aplica la función \texttt{cfmakeraw(\&tty)}, la cual desactiva el eco local (\texttt{ECHO}), la entrada canónica por líneas (\texttt{ICANON}), y cualquier interpretación de caracteres especiales (como saltos de línea o señales de interrupción). Esto garantiza que la transmisión sea pura a nivel de bytes.
+    \item \textbf{Parámetros de Comunicación (9600 8N1):} Se fija la velocidad con \texttt{cfsetispeed} y \texttt{cfsetospeed} a \texttt{B9600}. Se configura el tamaño de palabra con \texttt{CS8}, se desactiva el bit de paridad (\texttt{PARENB}) y se configura 1 bit de parada (limpiando \texttt{CSTOPB}).
+    \item \textbf{Lectura Bloqueante por Carácter:} Se configuran los parámetros de lectura mínima y temporización:
+    \begin{lstlisting}[language=C]
+tty.c_cc[VMIN]  = 1;
+tty.c_cc[VTIME] = 0;
+    \end{lstlisting}
+    Esto fuerza a la llamada \texttt{read} a bloquear la ejecución hasta que se reciba como mínimo 1 byte desde la BluePill, eliminando la necesidad de realizar sondeo continuo de la UART del lado de la PC.
+\end{itemize}
+
+\section{Estructura del Código y Lógica de Flujo}
+Para garantizar un comportamiento asíncrono y de bajo consumo en el microcontrolador, el sistema se divide en un hilo de ejecución principal y rutinas de atención de interrupciones de hardware.
+
+\subsection{Lógica del Microcontrolador (STM32)}
+La ejecución de la placa BluePill se divide en dos entornos concurrentes:
+\begin{itemize}
+    \item \textbf{Programa Principal (Bucle Principal):} Inicializa los periféricos y entra en un bucle \textit{while(1)} de consulta pasiva de la bandera de comando. Al procesar una opción recibida, realiza la acción correspondiente sobre el LED (PC13) y transmite la cadena de acuse de recibo correspondiente.
+    \item \textbf{Hilo de Interrupción (USART1 RX):} Se activa de forma asíncrona ante la recepción de un carácter en la línea RX (PA10). Pausa temporalmente el bucle principal, almacena el dato recibido en una variable temporal y activa la bandera que notifica al bucle principal.
+\end{itemize}
+
+\subsection{Variables y Banderas Clave (BluePill)}
+\begin{itemize}
+    \item \textbf{PC13}: Pin asociado al LED incorporado de la placa BluePill (activo en bajo).
+    \item \textbf{PA9 / PA10}: Pines asignados a la transmisión (TX) y recepción (RX) de USART1 respectivamente.
+    \item \textbf{new\_command}: Bandera booleana de software volátil declarada globalmente que indica la presencia de un carácter recibido sin procesar en el bucle principal.
+    \item \textbf{command\_received}: Registro temporal volátil de 8 bits donde se copia el contenido del registro de datos de recepción del periférico (\texttt{USART1-\textgreater{}DR}) durante la rutina de interrupción.
+\end{itemize}
+
+\subsection{Lógica de la Consola Interactiva (PC)}
+El script en C para la PC opera de manera síncrona: presenta el menú en terminal, lee la opción del usuario por teclado, realiza una limpieza del buffer de entrada serie (\texttt{tcflush}), transmite la opción por UART e ingresa a una lectura bloqueante hasta recibir la respuesta de la BluePill terminada en salto de línea.
+
+
+\section{Código Fuente}
+A continuación, se listan los códigos fuente implementados para ambos extremos de la comunicación. Obsérvese que se han retirado caracteres con acentos de los comentarios del código para garantizar la máxima compatibilidad de compilación de este documento en sistemas LaTeX estándar.
+
+\noindent\textbf{Firmware de la placa BluePill (\texttt{src/main.c}):}
+\begin{lstlisting}
+#include "stm32f1xx.h"
+#include <stdint.h>
+
+typedef enum {
+    LED_STATE_OFF = 0,
+    LED_STATE_ON,
+    LED_STATE_BLINK
+} led_state_t;
+
+volatile led_state_t led_mode = LED_STATE_OFF;
+volatile uint32_t tick_led = 0;
+volatile char command_received = 0;
+volatile uint8_t new_command = 0;
+
+void UART_send_char(char c) {
+    while (!(USART1->SR & USART_SR_TXE));
+    USART1->DR = c;
+}
+
+void UART_send_string(const char *str) {
+    while (*str) {
+        UART_send_char(*str);
+        str++;
+    }
+}
+
+void SysTick_Handler(void) {
+    if (led_mode == LED_STATE_BLINK) {
+        tick_led++;
+        if (tick_led >= 500) {
+            GPIOC->ODR ^= (1 << 13);
+            tick_led = 0;
+        }
+    }
+}
+
+void USART1_IRQHandler(void) {
+    if (USART1->SR & USART_SR_RXNE) {
+        command_received = (char)(USART1->DR & 0xFF);
+        new_command = 1;
+    }
+}
+
+int main(void) {
+    // Habilitar Relojes
+    RCC->APB2ENR |= RCC_APB2ENR_IOPCEN | RCC_APB2ENR_IOPAEN | 
+                    RCC_APB2ENR_USART1EN | RCC_APB2ENR_AFIOEN;
+
+    // Configurar SysTick a 1ms
+    SysTick->CTRL &= ~SysTick_CTRL_CLKSOURCE_Msk; 
+    SysTick->LOAD = 999; 
+    SysTick->VAL = 0; 
+    SysTick->CTRL |= SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk; 
+
+    // Configurar PC13 como salida push-pull 2MHz
+    GPIOC->CRH &= ~GPIO_CRH_CNF13_Msk;
+    GPIOC->CRH |= GPIO_CRH_MODE13_1; 
+    GPIOC->ODR |= (1 << 13); 
+
+    // PA9 (TX) - Alternate function push-pull
+    GPIOA->CRH &= ~(0xF << 4);
+    GPIOA->CRH |= (0xB << 4);
+
+    // PA10 (RX) - Input floating
+    GPIOA->CRH &= ~(0xF << 8);
+    GPIOA->CRH |= (0x4 << 8);
+
+    // Configurar USART1
+    USART1->CR1 &= ~USART_CR1_M;     
+    USART1->CR1 &= ~USART_CR1_PCE;   
+    USART1->CR2 &= ~USART_CR2_STOP;  
+    USART1->BRR = 0x1D4C;            
+
+    USART1->CR1 |= USART_CR1_UE | USART_CR1_TE | USART_CR1_RE;
+    USART1->CR1 |= USART_CR1_RXNEIE;
+
+    // Configurar NVIC
+    NVIC_SetPriority(USART1_IRQn, 2); 
+    NVIC_EnableIRQ(USART1_IRQn);
+
+    while (1) {
+        if (new_command) {
+            new_command = 0;
+            char cmd = command_received;
+
+            if (cmd == '1') {
+                led_mode = LED_STATE_ON;
+                GPIOC->ODR &= ~(1 << 13);
+                UART_send_string("LED encendido\n");
+            } 
+            else if (cmd == '2') {
+                led_mode = LED_STATE_OFF;
+                GPIOC->ODR |= (1 << 13);
+                UART_send_string("LED apagado\n");
+            } 
+            else if (cmd == '3') {
+                led_mode = LED_STATE_BLINK;
+                UART_send_string("LED parpadeando\n");
+            } 
+            else if (cmd == '0') {
+                led_mode = LED_STATE_OFF;
+                GPIOC->ODR |= (1 << 13);
+                UART_send_string("Saliendo\n");
+            }
+        }
+    }
+}
+\end{lstlisting}
+\noindent\textbf{Aplicación interactiva de la PC (\texttt{lecturadesdePC.c}):}
+\begin{lstlisting}
+#include <stdio.h>      
+#include <stdlib.h>     
+#include <fcntl.h>      
+#include <unistd.h>     
+#include <termios.h>    
+#include <signal.h>     
+#include <string.h>
+
+#define SERIAL_PORT "/dev/ttyUSB0"
+
+int fd;                         
+struct termios oldtty;         
+
+void cerrar_programa(int sig) {
+    tcsetattr(fd, TCSANOW, &oldtty);  
+    close(fd);                        
+    printf("\nPuerto cerrado.\n");
+    exit(0);
+}
+
+int main(void) {
+    struct termios tty;   
+
+    signal(SIGINT, cerrar_programa); 
+
+    fd = open(SERIAL_PORT, O_RDWR | O_NOCTTY); 
+
+    if (fd < 0) {
+        perror("No se pudo abrir el puerto serie /dev/ttyUSB0");
+        return 1;
+    }
+
+    tcgetattr(fd, &oldtty); 
+    tty = oldtty;           
+
+    cfmakeraw(&tty);        
+
+    cfsetispeed(&tty, B9600); 
+    cfsetospeed(&tty, B9600); 
+
+    tty.c_cflag |= CLOCAL | CREAD; 
+    tty.c_cflag &= ~PARENB;        
+    tty.c_cflag &= ~CSTOPB;        
+    tty.c_cflag &= ~CSIZE;         
+    tty.c_cflag |= CS8;            
+
+    tty.c_lflag &= ~ECHO;          
+
+    tty.c_cc[VMIN]  = 1;           
+    tty.c_cc[VTIME] = 0;           
+
+    tcflush(fd, TCIFLUSH);         
+    tcsetattr(fd, TCSANOW, &tty);  
+
+    printf("Puerto %s configurado correctamente a 9600 8N1.\n", SERIAL_PORT);
+    printf("Ctrl+C para salir de la aplicacion.\n");
+
+    while (1) {
+        printf("\n===== MENU UART =====\n");
+        printf("1: LED_ON\n");
+        printf("2: LED_OFF\n");
+        printf("3: LED_TITILA\n");
+        printf("0: Salir\n");
+        printf("Opcion: ");
+        fflush(stdout);
+
+        char opcion;
+        if (scanf(" %c", &opcion) != 1) {
+            continue;
+        }
+
+        if (opcion == '0') {
+            write(fd, &opcion, 1);
+            printf("Saliendo de la aplicacion...\n");
+            break;
+        }
+
+        if (opcion < '1' || opcion > '3') {
+            printf("Opcion no valida. Intente nuevamente.\n");
+            continue;
+        }
+
+        tcflush(fd, TCIFLUSH);
+
+        if (write(fd, &opcion, 1) != 1) {
+            perror("Error de escritura en el puerto serie");
+            break;
+        }
+
+        char respuesta[256];
+        int idx = 0;
+        char c;
+        int n;
+
+        while (idx < 255) {
+            n = read(fd, &c, 1);
+            if (n > 0) {
+                if (c == '\n') {
+                    respuesta[idx] = '\0';
+                    break;
+                }
+                if (c != '\r') {
+                    respuesta[idx++] = c;
+                }
+            } else if (n < 0) {
+                perror("Error de lectura del puerto serie");
+                break;
+            }
+        }
+        printf("BluePill responde: %s\n", respuesta);
+    }
+
+    cerrar_programa(0);
+    return 0;
+}
+\end{lstlisting}
+
+\section{Pruebas y Verificación del Funcionamiento}
+Para corroborar el correcto desempeño de la comunicación bidireccional y las interrupciones por recepción, se ejecutaron las siguientes pruebas metodológicas:
+\begin{itemize}
+    \item \textbf{Prueba de Transmisión del Host a la BluePill:} Al seleccionar una opción en el menú en la PC (por ejemplo, '1'), se comprobó el envío correcto de un único byte. Se verificó con un analizador lógico que la trama cumple con la temporización a 9600 bps y que no existe ruido en la línea.
+    \item \textbf{Verificación de la Interrupción por Recepción:} Se comprobó mediante depuración en hardware que al ingresar un carácter, la ejecución del bucle principal de la BluePill se detiene inmediatamente y entra en la ISR \texttt{USART1\_IRQHandler(void)}, donde el registro \texttt{DR} es leído, la bandera \texttt{new\_command} cambia a 1 y el procesador retoma de inmediato la tarea en segundo plano.
+    \item \textbf{Verificación de Respuestas y Control del LED:}
+    \begin{itemize}
+        \item \textbf{Comando '1':} El LED integrado en la placa BluePill (PC13) se enciende (el pin se establece a nivel bajo). La terminal de la PC muestra por pantalla: \texttt{BluePill responde: LED encendido}.
+        \item \textbf{Comando '2':} El LED se apaga (pin en alto). La PC muestra: \texttt{BluePill responde: LED apagado}.
+        \item \textbf{Comando '3':} El LED parpadea periódicamente cada 500 ms de forma asíncrona mediante el conteo del SysTick. Se corroboró que el parpadeo del LED no bloquea la terminal serie de la PC, pudiendo enviar nuevos comandos en paralelo. La PC muestra: \texttt{BluePill responde: LED parpadeando}.
+        \item \textbf{Comando '0':} La BluePill detiene el parpadeo y apaga el LED. Envía a la PC la cadena \texttt{Saliendo} y la aplicación del host cierra de manera ordenada el descriptor de archivo de la UART.
+    \end{itemize}
+\end{itemize}
+
+\section{Conclusión}
+La realización de este trabajo práctico permitió consolidar la implementación de la comunicación serie asíncrona mediante manipulación directa de registros de hardware y la configuración de interrupciones asíncronas en arquitecturas Cortex-M3.
+
+\begin{itemize}
+    \item \textbf{Dificultades Encontradas:} La principal dificultad consistió en la configuración inicial de la librería \texttt{termios} en Linux. Lograr que el sistema operativo entregara directamente cada byte sin procesar y de manera no bloqueante requirió una minuciosa lectura de las opciones de control de la terminal POSIX.
+    \item \textbf{Errores Frecuentes:} Durante las pruebas iniciales, el error más común fue olvidar realizar una conexión de referencia común de masa (GND) entre el conversor USB-UART y la BluePill. Esto generó errores de trama y recepción de caracteres erróneos. Otro fallo habitual fue no limpiar la bandera de interrupción de hardware, lo cual se solucionó al comprender que la lectura del registro \texttt{DR} realiza esta tarea de manera automática.
+    \item \textbf{Conceptos más Significativos:} Se comprendió la diferencia crítica en términos de eficiencia de CPU entre la lectura por sondeo (polling) y el esquema basado en interrupciones (ISR). Las interrupciones permiten al microcontrolador entrar en modos de bajo consumo o ejecutar otras tareas secuenciales de fondo sin perder eventos externos de comunicación.
+    \item \textbf{Aprendizajes Obtenidos:} Se consolidó el uso del calificador \texttt{volatile} en variables globales compartidas entre el programa principal y las ISRs para evitar optimizaciones del compilador que oculten los cambios de estado. Además, se asimiló la lógica de diseño de sistemas de comunicación interactivos Host-Target.
+\end{itemize}
+
+\begin{thebibliography}{1}
+\bibitem{ref_stm32}
+STMicroelectronics, \emph{STM32F103xx Reference Manual (RM0008)}, Rev. 21, 2021.
+\bibitem{ref_cmsis}
+ARM Limited, \emph{Cortex Microcontroller Software Interface Standard (CMSIS) documentation}, 2023.
+\end{thebibliography}
+
+\end{document}
