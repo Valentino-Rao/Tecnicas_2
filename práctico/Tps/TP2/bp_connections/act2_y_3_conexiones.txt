@@ -1,0 +1,24 @@
+Conexiones bp tp2 - Actividad 2 y 3 (Lógica Positiva)
+
+-: conectado
+'-': gnd
+
+pin 3.3 - banda '+' izquierda
+pin G - banda '-' izquierda (puenteado con banda '-' derecha)
+
+pin A0 - a un terminal de BOTON 1 (el otro terminal a 3.3V)
+pin A1 - a un terminal de BOTON 2 (el otro terminal a 3.3V)
+
+pin A2 - resistencia 220 ohm - a led de Boton 1 - a columna izquierda '-'
+pin A3 - resistencia 220 ohm - a led de Boton 2 - a columna izquierda '-'
+
+pin A4 - pin medio potenciometro (los otros dos pines del potenciometro van a 3.3V y G)
+
+pin A5 - resistencia 220 ohm - a led barra 1 (nivel bajo) - a columna izquierda '-'
+pin A6 - resistencia 220 ohm - a led barra 2 - a columna izquierda '-'
+pin A7 - resistencia 220 ohm - a led barra 3 - a columna izquierda '-'
+
+pin B10 - resistencia 220 ohm - a led barra 4 - a columna izquierda '-'
+pin B11 - resistencia 220 ohm - a led barra 5 (nivel alto) - a columna izquierda '-'
+
+pin C13 - LED interno de la placa (no se conecta nada)

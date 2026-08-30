@@ -1,0 +1,24 @@
+Conexiones bp tp2 
+
+-: conectado
+'-':gnd
+
+pin 3.3- banda '+' izquierda
+pin G- banda '-' izquierda (puenteado con banda '-' derecha)
+pin 5V a B12 (todo lo que resta de la columna izquierda de la blue pill)- ninguna conexion
+pin VB a C15- ninguna conexion
+pin A0 - BOTON 1
+pin A1 - BOTON 2
+pin A2 - resistencia 1 220 ohm - a led rojo 1 - a columna izquierda '-'
+pin A3 - resistencia 2 220 ohm - a led rojo 2 - a columna izquierda '-'
+pin A4 - resistencia 6 220 ohm - a led amarillo 6 - a columna izquierda '-'
+pin A5 - resistencia 3 220 ohm - a led amarillo 3 - a columna izquierda '-'
+pin A6 - resistencia 4 220 ohm - a led amarillo 4 - a columna izquierda '-'
+pin A5 - resitencia 5 220 ohm - a led amarillo 5 - a columna izquierda '-'
+pin B0 - nada
+pin B10 - pin medio potenciomentro
+pin B11 - resitencia 7 220 ohm - a led amarillo 7 - columna izquierda '-'
+pin R -  nada
+pin 3.3 - nada
+pin G - nada
+pin G - banda izquierda '-' 

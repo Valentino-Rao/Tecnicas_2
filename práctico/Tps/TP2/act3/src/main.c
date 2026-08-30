@@ -111,16 +111,16 @@ int main(void) {
         // D. Guardar valor
         uint16_t adc_val = ADC1->DR & 0xFFFF;
 
-        // E. Limpiar barra de LEDs (Lógica Negativa: '1' es Apagado)
-        GPIOA->ODR |= (1 << 5) | (1 << 6) | (1 << 7);
-        GPIOB->ODR |= (1 << 10) | (1 << 11);
+        // E. Limpiar barra de LEDs (Lógica Positiva: '0' es Apagado)
+        GPIOA->ODR &= ~((1 << 5) | (1 << 6) | (1 << 7));
+        GPIOB->ODR &= ~((1 << 10) | (1 << 11));
 
-        // F. Actualizar barra (Lógica Negativa: '0' es Encendido)
-        if (adc_val > 682)  GPIOA->ODR &= ~(1 << 5);  
-        if (adc_val > 1365) GPIOA->ODR &= ~(1 << 6);  
-        if (adc_val > 2048) GPIOA->ODR &= ~(1 << 7);  
-        if (adc_val > 2730) GPIOB->ODR &= ~(1 << 10); 
-        if (adc_val > 3412) GPIOB->ODR &= ~(1 << 11); 
+        // F. Actualizar barra (Lógica Positiva: '1' es Encendido)
+        if (adc_val > 682)  GPIOA->ODR |= (1 << 5);  
+        if (adc_val > 1365) GPIOA->ODR |= (1 << 6);  
+        if (adc_val > 2048) GPIOA->ODR |= (1 << 7);  
+        if (adc_val > 2730) GPIOB->ODR |= (1 << 10); 
+        if (adc_val > 3412) GPIOB->ODR |= (1 << 11);  
         
         delay_dummy(100000); 
     }

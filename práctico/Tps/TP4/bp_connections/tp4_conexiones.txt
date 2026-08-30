@@ -1,0 +1,20 @@
+Conexiones bp tp4 - Ejercicios 1 y 2 (FreeRTOS)
+
+-: conectado
+'-': gnd
+
+pin 3.3 - banda '+' izquierda
+pin G - banda '-' izquierda (puenteado con banda '-' derecha)
+
+pin C13 - LED interno de la placa (no se conecta nada)
+          (En Ejercicio 1: Blinky a 5 Hz)
+          (En Ejercicio 2: Toggle indicador de muestreo ADC)
+
+pin A4 - pin medio potenciometro (los otros dos pines del potenciometro van a 3.3V y G)
+         (En Ejercicio 2: Entrada ADC1 Canal 4 leida por Tarea Productora)
+
+pin A9 - pin RX de conversor USB-Serial (USART1 TX a 115200 baudios)
+         (En Ejercicio 1: Envia telemetria idle cada 2s)
+         (En Ejercicio 2: Envia lecturas ADC y tension recibidas de la Queue)
+
+pin G (Conversor USB) - banda '-' izquierda (Masa comun obligatoria con PC)

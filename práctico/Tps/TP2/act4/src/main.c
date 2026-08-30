@@ -96,10 +96,10 @@ int main(void) {
     GPIOA->CRH |= (0x4 << 8);
 
     // 5. Configurar la trama USART1 (8N1 @ 9600 baudios)
-    USART1->CR1 &= ~USART_CR1_M;     // M = 0 (8 bits de datos)
-    USART1->CR1 &= ~USART_CR1_PCE;   // PCE = 0 (Sin paridad)
-    USART1->CR2 &= ~USART_CR2_STOP;  // STOP = 00 (1 bit de stop)
-    USART1->BRR = 0x1D4C;            // 9600 baudios para frecuencia de 72MHz
+    USART1->CR1 &= ~USART_CR1_M;     // 8 bits de datos
+    USART1->CR1 &= ~USART_CR1_PCE;   // Sin paridad
+    USART1->CR2 &= ~USART_CR2_STOP;  // 1 bit de parada
+    USART1->BRR = 0x1D4C;            // 9600 baudios a 72 MHz (HSE + PLL)
 
     // Habilitar USART1, Transmisión (TE) y Recepción (RE)
     USART1->CR1 |= USART_CR1_UE | USART_CR1_TE | USART_CR1_RE;
