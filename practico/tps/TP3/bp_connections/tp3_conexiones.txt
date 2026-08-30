@@ -1,0 +1,16 @@
+Conexiones bp tp3 - Primer proyecto en RTOS (rtos-blink)
+
+-: conectado
+'-': gnd
+
+pin 3.3 - banda '+' izquierda (Alimentacion desde ST-Link o USB)
+pin G - banda '-' izquierda (Masa comun)
+
+pin C13 - LED interno de la placa (no se conecta nada externo)
+          (Parpadeo a 1 Hz: 500 ms ON / 500 ms OFF controlado por tarea vBlinkTask)
+
+Conector de Programacion SWD (ST-Link V2):
+- Pin 3.3V -> Pin 3.3V ST-Link
+- Pin GND  -> Pin GND ST-Link
+- Pin SWDIO -> Pin SWDIO ST-Link
+- Pin SWCLK -> Pin SWCLK ST-Link

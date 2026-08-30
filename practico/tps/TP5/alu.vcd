@@ -1,0 +1,107 @@
+$date
+	Sun Aug 30 12:58:31 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module alu_tb $end
+$var wire 1 ! zero $end
+$var wire 8 " result [7:0] $end
+$var wire 1 # negative $end
+$var parameter 32 $ WIDTH $end
+$var reg 8 % a [7:0] $end
+$var reg 3 & alu_control [2:0] $end
+$var reg 8 ' b [7:0] $end
+$scope module dut $end
+$var wire 8 ( a [7:0] $end
+$var wire 3 ) alu_control [2:0] $end
+$var wire 8 * b [7:0] $end
+$var wire 1 ! zero $end
+$var wire 1 # negative $end
+$var parameter 32 + WIDTH $end
+$var reg 8 , result [7:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b1000 +
+b1000 $
+$end
+#0
+$dumpvars
+b11001 ,
+b1010 *
+b0 )
+b1111 (
+b1010 '
+b0 &
+b1111 %
+0#
+b11001 "
+0!
+$end
+#10000
+1!
+b0 "
+b0 ,
+b1 &
+b1 )
+b101010 '
+b101010 *
+b101010 %
+b101010 (
+#20000
+1#
+0!
+b11110001 "
+b11110001 ,
+b11001 '
+b11001 *
+b1010 %
+b1010 (
+#30000
+b10100000 "
+b10100000 ,
+b10 &
+b10 )
+b10101010 '
+b10101010 *
+b11110000 %
+b11110000 (
+#40000
+b11111111 "
+b11111111 ,
+b11 &
+b11 )
+b1010101 %
+b1010101 (
+#50000
+b11110000 "
+b11110000 ,
+b100 &
+b100 )
+b1111 '
+b1111 *
+b11111111 %
+b11111111 (
+#60000
+0#
+b1 "
+b1 ,
+b101 &
+b101 )
+b1010 '
+b1010 *
+b11111011 %
+b11111011 (
+#70000
+1!
+b0 "
+b0 ,
+b10100 %
+b10100 (
+#80000
