@@ -1,0 +1,175 @@
+$date
+	Mon Oct  5 14:52:36 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module alu_tb $end
+$var wire 4 ! result [3:0] $end
+$var wire 4 " flags [3:0] $end
+$var parameter 32 # N $end
+$var reg 4 $ F [3:0] $end
+$var reg 4 % a [3:0] $end
+$var reg 4 & b [3:0] $end
+$var integer 32 ' errores [31:0] $end
+$scope module dut $end
+$var wire 4 ( F [3:0] $end
+$var wire 4 ) a [3:0] $end
+$var wire 4 * b [3:0] $end
+$var wire 1 + v_arit $end
+$var wire 4 , sum_arit [3:0] $end
+$var wire 2 - s [1:0] $end
+$var wire 4 . result [3:0] $end
+$var wire 4 / flags [3:0] $end
+$var wire 1 0 flag_z $end
+$var wire 1 1 flag_v $end
+$var wire 1 2 flag_s $end
+$var wire 1 3 flag_c $end
+$var wire 5 4 c [4:0] $end
+$var parameter 32 5 N $end
+$var reg 4 6 logic_out [3:0] $end
+$var reg 4 7 y_arit [3:0] $end
+$scope begin gen_fa[0] $end
+$var parameter 2 8 i $end
+$upscope $end
+$scope begin gen_fa[1] $end
+$var parameter 2 9 i $end
+$upscope $end
+$scope begin gen_fa[2] $end
+$var parameter 3 : i $end
+$upscope $end
+$scope begin gen_fa[3] $end
+$var parameter 3 ; i $end
+$upscope $end
+$upscope $end
+$scope task check_flags $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b11 ;
+b10 :
+b1 9
+b0 8
+b100 5
+b100 #
+$end
+#0
+$dumpvars
+b1010 7
+b0 6
+b11111 4
+13
+02
+01
+10
+b11 /
+b0 .
+b10 -
+b0 ,
+0+
+b101 *
+b101 )
+b101 (
+b0 '
+b101 &
+b101 %
+b101 $
+b11 "
+b0 !
+$end
+#10000
+03
+12
+01
+0+
+b100 "
+b100 /
+b111 4
+00
+b1100 !
+b1100 .
+b1100 ,
+b1000 7
+b100 6
+b111 &
+b111 *
+b11 %
+b11 )
+#20000
+13
+01
+b1 "
+b1 /
+0+
+02
+b1 !
+b1 .
+b1 ,
+b11100 4
+b1 -
+b1010 7
+b1111 6
+b10 $
+b10 (
+b1010 &
+b1010 *
+b111 %
+b111 )
+#30000
+11
+03
+1+
+b1100 "
+b1100 /
+12
+b1001 !
+b1001 .
+b1000 4
+b1001 ,
+b100 7
+b101 6
+b100 &
+b100 *
+b101 %
+b101 )
+#40000
+0+
+b0 4
+b100 "
+b100 /
+b1111 ,
+b1111 !
+b1111 .
+01
+b0 -
+b0 7
+b1111 6
+b1000 $
+b1000 (
+b1111 &
+b1111 *
+b1111 %
+b1111 )
+#50000
+02
+b10 "
+b10 /
+b1111 ,
+10
+b101 7
+b0 !
+b0 .
+b10 -
+b0 6
+b1100 $
+b1100 (
+b1010 &
+b1010 *
+b1010 %
+b1010 )
+#70000

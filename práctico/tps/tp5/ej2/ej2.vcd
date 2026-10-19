@@ -1,0 +1,152 @@
+$date
+	Mon Oct  5 14:52:36 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module ej2_tb $end
+$var wire 1 ! load_en $end
+$var wire 4 " bus_data [3:0] $end
+$var wire 2 # S [1:0] $end
+$var wire 4 $ R5 [3:0] $end
+$var parameter 32 % N $end
+$var reg 4 & R0 [3:0] $end
+$var reg 4 ' R1 [3:0] $end
+$var reg 4 ( R2 [3:0] $end
+$var reg 4 ) R3 [3:0] $end
+$var reg 4 * T [3:0] $end
+$var reg 1 + clk $end
+$var reg 1 , reset_n $end
+$var integer 32 - errores [31:0] $end
+$scope module dut $end
+$var wire 4 . R0 [3:0] $end
+$var wire 4 / R1 [3:0] $end
+$var wire 4 0 R2 [3:0] $end
+$var wire 4 1 R3 [3:0] $end
+$var wire 4 2 T [3:0] $end
+$var wire 1 + clk $end
+$var wire 1 , reset_n $end
+$var parameter 32 3 N $end
+$var reg 4 4 R5 [3:0] $end
+$var reg 2 5 S [1:0] $end
+$var reg 4 6 bus_data [3:0] $end
+$var reg 1 ! load_en $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b100 3
+b100 %
+$end
+#0
+$dumpvars
+b1010 6
+b0 5
+b0 4
+b0 2
+b11 1
+b1100 0
+b101 /
+b1010 .
+b0 -
+0,
+0+
+b0 *
+b11 )
+b1100 (
+b101 '
+b1010 &
+b0 $
+b0 #
+b1010 "
+0!
+$end
+#5000
+1+
+#10000
+0+
+#12000
+1,
+#15000
+1+
+#20000
+0+
+#25000
+1+
+#30000
+1!
+b1 *
+b1 2
+0+
+#35000
+b1010 $
+b1010 4
+1+
+#40000
+0!
+b0 *
+b0 2
+0+
+#45000
+1+
+#50000
+b101 "
+b101 6
+b1 #
+b1 5
+1!
+b10 *
+b10 2
+0+
+#55000
+b101 $
+b101 4
+1+
+#60000
+b1100 "
+b1100 6
+b10 #
+b10 5
+b100 *
+b100 2
+0+
+#65000
+b1100 $
+b1100 4
+1+
+#70000
+b11 "
+b11 6
+b11 #
+b11 5
+b1000 *
+b1000 2
+0+
+#75000
+b11 $
+b11 4
+1+
+#80000
+b1010 "
+b1010 6
+b0 #
+b0 5
+0!
+b0 *
+b0 2
+0+
+#85000
+1+
+#90000
+0+
+#95000
+1+
+#100000
+0+
+#105000
+1+
+#106000

@@ -1,0 +1,875 @@
+{
+  "creator": "Yosys 0.66 (git sha1 86f2ddebc-dirty, g++ 16.1.1 -march=x86-64 -mtune=generic -O2 -fno-plt -fexceptions -fstack-clash-protection -fcf-protection -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/yosys/src=/usr/src/debug/yosys -fPIC -O3) [startdir/yosys at makepkg]",
+  "modules": {
+    "circuito_aritmetico": {
+      "attributes": {
+        "dynports": "00000000000000000000000000000001",
+        "cells_not_processed": "00000000000000000000000000000001",
+        "src": "circuito_aritmetico.sv:20.1-68.10"
+      },
+      "parameter_default_values": {
+        "N": "00000000000000000000000000000100"
+      },
+      "ports": {
+        "a": {
+          "direction": "input",
+          "bits": [ 2, 3, 4, 5 ]
+        },
+        "b": {
+          "direction": "input",
+          "bits": [ 6, 7, 8, 9 ]
+        },
+        "s": {
+          "direction": "input",
+          "bits": [ 10, 11 ]
+        },
+        "cin": {
+          "direction": "input",
+          "bits": [ 12 ]
+        },
+        "y": {
+          "direction": "output",
+          "bits": [ 13, 14, 15, 16 ]
+        },
+        "sum": {
+          "direction": "output",
+          "bits": [ 17, 18, 19, 20 ]
+        },
+        "cout": {
+          "direction": "output",
+          "bits": [ 21 ]
+        },
+        "overflow": {
+          "direction": "output",
+          "bits": [ 22 ]
+        }
+      },
+      "cells": {
+        "$and$circuito_aritmetico.sv:57$12": {
+          "hide_name": 1,
+          "type": "$and",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.30-57.41"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 3 ],
+            "B": [ 14 ],
+            "Y": [ 23 ]
+          }
+        },
+        "$and$circuito_aritmetico.sv:57$14": {
+          "hide_name": 1,
+          "type": "$and",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.46-57.66"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 24 ],
+            "B": [ 25 ],
+            "Y": [ 26 ]
+          }
+        },
+        "$and$circuito_aritmetico.sv:57$18": {
+          "hide_name": 1,
+          "type": "$and",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.30-57.41"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 4 ],
+            "B": [ 15 ],
+            "Y": [ 27 ]
+          }
+        },
+        "$and$circuito_aritmetico.sv:57$20": {
+          "hide_name": 1,
+          "type": "$and",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.46-57.66"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 28 ],
+            "B": [ 29 ],
+            "Y": [ 30 ]
+          }
+        },
+        "$and$circuito_aritmetico.sv:57$24": {
+          "hide_name": 1,
+          "type": "$and",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.30-57.41"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 5 ],
+            "B": [ 16 ],
+            "Y": [ 31 ]
+          }
+        },
+        "$and$circuito_aritmetico.sv:57$26": {
+          "hide_name": 1,
+          "type": "$and",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.46-57.66"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 32 ],
+            "B": [ 33 ],
+            "Y": [ 34 ]
+          }
+        },
+        "$and$circuito_aritmetico.sv:57$6": {
+          "hide_name": 1,
+          "type": "$and",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.30-57.41"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 2 ],
+            "B": [ 13 ],
+            "Y": [ 35 ]
+          }
+        },
+        "$and$circuito_aritmetico.sv:57$8": {
+          "hide_name": 1,
+          "type": "$and",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.46-57.66"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 12 ],
+            "B": [ 36 ],
+            "Y": [ 37 ]
+          }
+        },
+        "$not$circuito_aritmetico.sv:43$2": {
+          "hide_name": 1,
+          "type": "$not",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000100",
+            "Y_WIDTH": "00000000000000000000000000000100"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:43.26-43.28"
+          },
+          "port_directions": {
+            "A": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 6, 7, 8, 9 ],
+            "Y": [ 38, 39, 40, 41 ]
+          }
+        },
+        "$or$circuito_aritmetico.sv:57$15": {
+          "hide_name": 1,
+          "type": "$or",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.29-57.67"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 23 ],
+            "B": [ 26 ],
+            "Y": [ 28 ]
+          }
+        },
+        "$or$circuito_aritmetico.sv:57$21": {
+          "hide_name": 1,
+          "type": "$or",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.29-57.67"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 27 ],
+            "B": [ 30 ],
+            "Y": [ 32 ]
+          }
+        },
+        "$or$circuito_aritmetico.sv:57$27": {
+          "hide_name": 1,
+          "type": "$or",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.29-57.67"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 31 ],
+            "B": [ 34 ],
+            "Y": [ 21 ]
+          }
+        },
+        "$or$circuito_aritmetico.sv:57$9": {
+          "hide_name": 1,
+          "type": "$or",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.29-57.67"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 35 ],
+            "B": [ 37 ],
+            "Y": [ 24 ]
+          }
+        },
+        "$procmux$28": {
+          "hide_name": 1,
+          "type": "$pmux",
+          "parameters": {
+            "S_WIDTH": "00000000000000000000000000000100",
+            "WIDTH": "00000000000000000000000000000100"
+          },
+          "attributes": {
+            "full_case": "00000000000000000000000000000001",
+            "src": "circuito_aritmetico.sv:43.29-43.29|circuito_aritmetico.sv:40.9-46.16"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "S": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ "x", "x", "x", "x" ],
+            "B": [ "1", "1", "1", "1", 38, 39, 40, 41, 6, 7, 8, 9, "0", "0", "0", "0" ],
+            "S": [ 42, 43, 44, 45 ],
+            "Y": [ 13, 14, 15, 16 ]
+          }
+        },
+        "$procmux$29_CMP0": {
+          "hide_name": 1,
+          "type": "$eq",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000010",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000010",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "full_case": "00000000000000000000000000000001",
+            "src": "circuito_aritmetico.sv:43.29-43.29|circuito_aritmetico.sv:40.9-46.16"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 10, 11 ],
+            "B": [ "1", "1" ],
+            "Y": [ 42 ]
+          }
+        },
+        "$procmux$30_CMP0": {
+          "hide_name": 1,
+          "type": "$eq",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000010",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000010",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "full_case": "00000000000000000000000000000001",
+            "src": "circuito_aritmetico.sv:42.28-42.28|circuito_aritmetico.sv:40.9-46.16"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 10, 11 ],
+            "B": [ "0", "1" ],
+            "Y": [ 43 ]
+          }
+        },
+        "$procmux$31_CMP0": {
+          "hide_name": 1,
+          "type": "$eq",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000010",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000010",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "full_case": "00000000000000000000000000000001",
+            "src": "circuito_aritmetico.sv:41.29-41.29|circuito_aritmetico.sv:40.9-46.16"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 10, 11 ],
+            "B": [ "1", "0" ],
+            "Y": [ 44 ]
+          }
+        },
+        "$procmux$32_CMP0": {
+          "hide_name": 1,
+          "type": "$logic_not",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000010",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "full_case": "00000000000000000000000000000001",
+            "src": "circuito_aritmetico.sv:40.17-40.17|circuito_aritmetico.sv:40.9-46.16"
+          },
+          "port_directions": {
+            "A": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 10, 11 ],
+            "Y": [ 45 ]
+          }
+        },
+        "$xor$circuito_aritmetico.sv:56$11": {
+          "hide_name": 1,
+          "type": "$xor",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:56.29-56.47"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 25 ],
+            "B": [ 24 ],
+            "Y": [ 18 ]
+          }
+        },
+        "$xor$circuito_aritmetico.sv:56$17": {
+          "hide_name": 1,
+          "type": "$xor",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:56.29-56.47"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 29 ],
+            "B": [ 28 ],
+            "Y": [ 19 ]
+          }
+        },
+        "$xor$circuito_aritmetico.sv:56$23": {
+          "hide_name": 1,
+          "type": "$xor",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:56.29-56.47"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 33 ],
+            "B": [ 32 ],
+            "Y": [ 20 ]
+          }
+        },
+        "$xor$circuito_aritmetico.sv:56$5": {
+          "hide_name": 1,
+          "type": "$xor",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:56.29-56.47"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 36 ],
+            "B": [ 12 ],
+            "Y": [ 17 ]
+          }
+        },
+        "$xor$circuito_aritmetico.sv:57$13": {
+          "hide_name": 1,
+          "type": "$xor",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.54-57.65"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 3 ],
+            "B": [ 14 ],
+            "Y": [ 25 ]
+          }
+        },
+        "$xor$circuito_aritmetico.sv:57$19": {
+          "hide_name": 1,
+          "type": "$xor",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.54-57.65"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 4 ],
+            "B": [ 15 ],
+            "Y": [ 29 ]
+          }
+        },
+        "$xor$circuito_aritmetico.sv:57$25": {
+          "hide_name": 1,
+          "type": "$xor",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.54-57.65"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 5 ],
+            "B": [ 16 ],
+            "Y": [ 33 ]
+          }
+        },
+        "$xor$circuito_aritmetico.sv:57$7": {
+          "hide_name": 1,
+          "type": "$xor",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.54-57.65"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 2 ],
+            "B": [ 13 ],
+            "Y": [ 36 ]
+          }
+        },
+        "$xor$circuito_aritmetico.sv:66$3": {
+          "hide_name": 1,
+          "type": "$xor",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "circuito_aritmetico.sv:66.23-66.36"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 21 ],
+            "B": [ 32 ],
+            "Y": [ 22 ]
+          }
+        }
+      },
+      "netnames": {
+        "$and$circuito_aritmetico.sv:57$12_Y": {
+          "hide_name": 1,
+          "bits": [ 23 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.30-57.41"
+          }
+        },
+        "$and$circuito_aritmetico.sv:57$14_Y": {
+          "hide_name": 1,
+          "bits": [ 26 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.46-57.66"
+          }
+        },
+        "$and$circuito_aritmetico.sv:57$18_Y": {
+          "hide_name": 1,
+          "bits": [ 27 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.30-57.41"
+          }
+        },
+        "$and$circuito_aritmetico.sv:57$20_Y": {
+          "hide_name": 1,
+          "bits": [ 30 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.46-57.66"
+          }
+        },
+        "$and$circuito_aritmetico.sv:57$24_Y": {
+          "hide_name": 1,
+          "bits": [ 31 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.30-57.41"
+          }
+        },
+        "$and$circuito_aritmetico.sv:57$26_Y": {
+          "hide_name": 1,
+          "bits": [ 34 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.46-57.66"
+          }
+        },
+        "$and$circuito_aritmetico.sv:57$6_Y": {
+          "hide_name": 1,
+          "bits": [ 35 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.30-57.41"
+          }
+        },
+        "$and$circuito_aritmetico.sv:57$8_Y": {
+          "hide_name": 1,
+          "bits": [ 37 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:57.46-57.66"
+          }
+        },
+        "$not$circuito_aritmetico.sv:43$2_Y": {
+          "hide_name": 1,
+          "bits": [ 38, 39, 40, 41 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:43.26-43.28"
+          }
+        },
+        "$procmux$29_CMP": {
+          "hide_name": 1,
+          "bits": [ 42 ],
+          "attributes": {
+          }
+        },
+        "$procmux$30_CMP": {
+          "hide_name": 1,
+          "bits": [ 43 ],
+          "attributes": {
+          }
+        },
+        "$procmux$31_CMP": {
+          "hide_name": 1,
+          "bits": [ 44 ],
+          "attributes": {
+          }
+        },
+        "$procmux$32_CMP": {
+          "hide_name": 1,
+          "bits": [ 45 ],
+          "attributes": {
+          }
+        },
+        "$xor$circuito_aritmetico.sv:56$10_Y": {
+          "hide_name": 1,
+          "bits": [ 25 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:56.29-56.40"
+          }
+        },
+        "$xor$circuito_aritmetico.sv:56$16_Y": {
+          "hide_name": 1,
+          "bits": [ 29 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:56.29-56.40"
+          }
+        },
+        "$xor$circuito_aritmetico.sv:56$22_Y": {
+          "hide_name": 1,
+          "bits": [ 33 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:56.29-56.40"
+          }
+        },
+        "$xor$circuito_aritmetico.sv:56$4_Y": {
+          "hide_name": 1,
+          "bits": [ 36 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:56.29-56.40"
+          }
+        },
+        "a": {
+          "hide_name": 0,
+          "bits": [ 2, 3, 4, 5 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:23.26-23.27"
+          }
+        },
+        "b": {
+          "hide_name": 0,
+          "bits": [ 6, 7, 8, 9 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:24.26-24.27"
+          }
+        },
+        "c": {
+          "hide_name": 0,
+          "bits": [ 12, 24, 28, 32, 21 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:33.17-33.18"
+          }
+        },
+        "cin": {
+          "hide_name": 0,
+          "bits": [ 12 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:26.26-26.29"
+          }
+        },
+        "cout": {
+          "hide_name": 0,
+          "bits": [ 21 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:29.26-29.30"
+          }
+        },
+        "overflow": {
+          "hide_name": 0,
+          "bits": [ 22 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:30.26-30.34"
+          }
+        },
+        "s": {
+          "hide_name": 0,
+          "bits": [ 10, 11 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:25.26-25.27"
+          }
+        },
+        "sum": {
+          "hide_name": 0,
+          "bits": [ 17, 18, 19, 20 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:28.26-28.29"
+          }
+        },
+        "y": {
+          "hide_name": 0,
+          "bits": [ 13, 14, 15, 16 ],
+          "attributes": {
+            "src": "circuito_aritmetico.sv:27.26-27.27"
+          }
+        }
+      }
+    }
+  }
+}

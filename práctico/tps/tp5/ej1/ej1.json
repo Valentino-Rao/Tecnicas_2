@@ -1,0 +1,136 @@
+{
+  "creator": "Yosys 0.66 (git sha1 86f2ddebc-dirty, g++ 16.1.1 -march=x86-64 -mtune=generic -O2 -fno-plt -fexceptions -fstack-clash-protection -fcf-protection -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/yosys/src=/usr/src/debug/yosys -fPIC -O3) [startdir/yosys at makepkg]",
+  "modules": {
+    "intercambio": {
+      "attributes": {
+        "dynports": "00000000000000000000000000000001",
+        "cells_not_processed": "00000000000000000000000000000001",
+        "src": "ej1.sv:9.1-36.10"
+      },
+      "parameter_default_values": {
+        "INIT_R1": "10100101",
+        "INIT_R2": "00111100",
+        "N": "00000000000000000000000000001000"
+      },
+      "ports": {
+        "clk": {
+          "direction": "input",
+          "bits": [ 2 ]
+        },
+        "reset_n": {
+          "direction": "input",
+          "bits": [ 3 ]
+        },
+        "T3": {
+          "direction": "input",
+          "bits": [ 4 ]
+        },
+        "R1": {
+          "direction": "output",
+          "bits": [ 5, 6, 7, 8, 9, 10, 11, 12 ]
+        },
+        "R2": {
+          "direction": "output",
+          "bits": [ 13, 14, 15, 16, 17, 18, 19, 20 ]
+        }
+      },
+      "cells": {
+        "$auto$ff.cc:337:slice$17": {
+          "hide_name": 1,
+          "type": "$adffe",
+          "parameters": {
+            "ARST_POLARITY": "00000000000000000000000000000000",
+            "ARST_VALUE": "00111100",
+            "CLK_POLARITY": "00000000000000000000000000000001",
+            "EN_POLARITY": "00000000000000000000000000000001",
+            "WIDTH": "00000000000000000000000000001000"
+          },
+          "attributes": {
+            "always_ff": "00000000000000000000000000000001",
+            "src": "ej1.sv:24.5-34.8"
+          },
+          "port_directions": {
+            "ARST": "input",
+            "CLK": "input",
+            "D": "input",
+            "EN": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "ARST": [ 3 ],
+            "CLK": [ 2 ],
+            "D": [ 5, 6, 7, 8, 9, 10, 11, 12 ],
+            "EN": [ 4 ],
+            "Q": [ 13, 14, 15, 16, 17, 18, 19, 20 ]
+          }
+        },
+        "$auto$ff.cc:337:slice$18": {
+          "hide_name": 1,
+          "type": "$adffe",
+          "parameters": {
+            "ARST_POLARITY": "00000000000000000000000000000000",
+            "ARST_VALUE": "10100101",
+            "CLK_POLARITY": "00000000000000000000000000000001",
+            "EN_POLARITY": "00000000000000000000000000000001",
+            "WIDTH": "00000000000000000000000000001000"
+          },
+          "attributes": {
+            "always_ff": "00000000000000000000000000000001",
+            "src": "ej1.sv:24.5-34.8"
+          },
+          "port_directions": {
+            "ARST": "input",
+            "CLK": "input",
+            "D": "input",
+            "EN": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "ARST": [ 3 ],
+            "CLK": [ 2 ],
+            "D": [ 13, 14, 15, 16, 17, 18, 19, 20 ],
+            "EN": [ 4 ],
+            "Q": [ 5, 6, 7, 8, 9, 10, 11, 12 ]
+          }
+        }
+      },
+      "netnames": {
+        "R1": {
+          "hide_name": 0,
+          "bits": [ 5, 6, 7, 8, 9, 10, 11, 12 ],
+          "attributes": {
+            "src": "ej1.sv:17.26-17.28"
+          }
+        },
+        "R2": {
+          "hide_name": 0,
+          "bits": [ 13, 14, 15, 16, 17, 18, 19, 20 ],
+          "attributes": {
+            "src": "ej1.sv:18.26-18.28"
+          }
+        },
+        "T3": {
+          "hide_name": 0,
+          "bits": [ 4 ],
+          "attributes": {
+            "src": "ej1.sv:16.26-16.28"
+          }
+        },
+        "clk": {
+          "hide_name": 0,
+          "bits": [ 2 ],
+          "attributes": {
+            "src": "ej1.sv:14.26-14.29"
+          }
+        },
+        "reset_n": {
+          "hide_name": 0,
+          "bits": [ 3 ],
+          "attributes": {
+            "src": "ej1.sv:15.26-15.33"
+          }
+        }
+      }
+    }
+  }
+}
